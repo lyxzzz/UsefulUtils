@@ -1,19 +1,21 @@
 #!/bin/bash
-code_path="/home/lyx/code/"
-segment_file="${code_path}segment/*.py ${code_path}segment/python ${code_path}segment/*.txt"
+#zip code and send it to a backup server
+code_path="***" #your code dir
+username=xxx
+userip=xxx.xx.xx.xx
+userdir=xxx
+logdir=xxx/xxx
 
-obj_file="${code_path}obj_det/python ${code_path}obj_det/test_cfgs ${code_path}obj_det/train_cfgs ${code_path}obj_det/tft_cfgs ${code_path}obj_det/result ${code_path}obj_det/*.py ${code_path}obj_det/run.sh ${code_path}obj_det/.run"
+file_list="${code_path}/a/*.py ${code_path}/a/*.txt ${code_path}/a/b"
 
-test_file="${code_path}test_det/python ${code_path}test_det/test_cfgs ${code_path}test_det/train_cfgs ${code_path}test_det/tft_cfgs ${code_path}test_det/result ${code_path}test_det/*.py ${code_path}test_det/run.sh ${code_path}test_det/.run"
+zip -r ${code_path}/total_code.zip $file_list
 
-zip -r ${code_path}total_code.zip $segment_file $obj_file $test_file
-
-scp ${code_path}total_code.zip lyx@106.15.180.211:code_dir/
+scp ${code_path}/total_code.zip $username@$userip:$userdir
 
 d=`date +%Y-%m-%d`
-date +%Y-%m-%d\ %H:%M:%S >> /home/lyx/zip_log/ziplog$d.log
+date +%Y-%m-%d\ %H:%M:%S >> $logdir/ziplog$d.log
 
-rm_log_list=`find /home/lyx/zip_log -mtime +7|grep -e ".*\.log"`
+rm_log_list=`find $logdir -mtime +7|grep -e ".*\.log"`
 if [ ${#rm_log_list} -ge 10 ];then
 	rm $rm_log_list
 fi

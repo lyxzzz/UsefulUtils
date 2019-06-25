@@ -1,1 +1,1 @@
-
+zip.sh: backup your program to your target server, should config SSH public and private keys
